@@ -143,6 +143,7 @@ public class RouteDefinitionRouteLocator
 
 	@Override
 	public Flux<Route> getRoutes() {
+		// 读取路由配置将RouteDefinition转换为Route
 		Flux<Route> routes = this.routeDefinitionLocator.getRouteDefinitions()
 				.map(this::convertToRoute);
 

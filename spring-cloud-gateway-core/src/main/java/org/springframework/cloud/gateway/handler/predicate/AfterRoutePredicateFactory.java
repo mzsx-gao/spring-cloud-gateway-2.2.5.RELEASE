@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * @author Spencer Gibb
+ * @author Spencer Gibb 匹配在指定的日期时间之后发生的请求 入参是ZonedDateTime类型
  */
 public class AfterRoutePredicateFactory
 		extends AbstractRoutePredicateFactory<AfterRoutePredicateFactory.Config> {

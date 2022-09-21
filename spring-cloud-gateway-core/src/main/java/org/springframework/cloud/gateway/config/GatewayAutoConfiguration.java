@@ -162,8 +162,7 @@ import static org.springframework.cloud.gateway.config.HttpClientProperties.Pool
 
 /**
  * @author Spencer Gibb
- * @author Ziemowit Stolarczyk
- * Gateway功能自动装配
+ * @author Ziemowit Stolarczyk Gateway功能自动装配-源码入口
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "spring.cloud.gateway.enabled", matchIfMissing = true)

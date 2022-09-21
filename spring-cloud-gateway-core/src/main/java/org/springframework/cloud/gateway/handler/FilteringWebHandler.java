@@ -57,6 +57,7 @@ public class FilteringWebHandler implements WebHandler {
 
 	private static List<GatewayFilter> loadFilters(List<GlobalFilter> filters) {
 		return filters.stream().map(filter -> {
+			// 适配器模式将GlobalFilter转化为GatewayFilter
 			GatewayFilterAdapter gatewayFilter = new GatewayFilterAdapter(filter);
 			if (filter instanceof Ordered) {
 				int order = ((Ordered) filter).getOrder();
@@ -73,7 +74,11 @@ public class FilteringWebHandler implements WebHandler {
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange) {
+		/**
+		 * 拿到路由信息，这里的路由信息设置地方: RoutePredicateHandlerMapping#getHandlerInternal
+		 */
 		Route route = exchange.getRequiredAttribute(GATEWAY_ROUTE_ATTR);
+		// 拿到过滤器
 		List<GatewayFilter> gatewayFilters = route.getFilters();
 
 		List<GatewayFilter> combined = new ArrayList<>(this.globalFilters);
@@ -84,7 +89,7 @@ public class FilteringWebHandler implements WebHandler {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Sorted gatewayFilterFactories: " + combined);
 		}
-
+		// 执行过滤器链
 		return new DefaultGatewayFilterChain(combined).filter(exchange);
 	}
 

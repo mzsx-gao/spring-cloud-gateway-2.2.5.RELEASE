@@ -48,6 +48,7 @@ public class GatewayLoadBalancerClientAutoConfiguration {
 			ReactiveLoadBalancerClientFilter.class })
 	public LoadBalancerClientFilter loadBalancerClientFilter(LoadBalancerClient client,
 			LoadBalancerProperties properties) {
+		// 一般这里的client是RibbonLoadBalancerClient
 		return new LoadBalancerClientFilter(client, properties);
 	}
 

@@ -79,7 +79,7 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 		if (log.isTraceEnabled()) {
 			log.trace("LoadBalancerClientFilter url before: " + url);
 		}
-
+		// 通过ribbon去nacos中获取对应微服务名的实例列表，通过负载均衡算法选出一个服务实例
 		final ServiceInstance instance = choose(exchange);
 
 		if (instance == null) {
@@ -95,14 +95,14 @@ public class LoadBalancerClientFilter implements GlobalFilter, Ordered {
 		if (schemePrefix != null) {
 			overrideScheme = url.getScheme();
 		}
-
+		// 重建请求的url，url替换就是在这里做的
 		URI requestUrl = loadBalancer.reconstructURI(
 				new DelegatingServiceInstance(instance, overrideScheme), uri);
 
 		if (log.isTraceEnabled()) {
 			log.trace("LoadBalancerClientFilter url chosen: " + requestUrl);
 		}
-
+		// 绑定url到请求的上下文
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, requestUrl);
 		return chain.filter(exchange);
 	}
